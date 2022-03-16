@@ -1,9 +1,8 @@
 server.host: "0.0.0.0"
 server.port: 5601
 server.shutdownTimeout: "5s"
-elasticsearch.hosts: [ "https://172.18.0.2:9200" ]
+elasticsearch.hosts: [ "https://master:9200" ]
 monitoring.ui.container.elasticsearch.enabled: true
 elasticsearch.ssl.certificateAuthorities: [ "./certs/ca/ca.crt" ]
-elasticsearch.username: "kibana_system"
-elasticsearch.password: "Er4aLuGEOSpn24j7tsu1"
-
+elasticsearch.username: "elastic"
+elasticsearch.password: "Test@1234"
