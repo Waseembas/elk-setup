@@ -8,6 +8,16 @@
 
 #main control
 
+  - name: Creates directory for elk
+    file:
+     path: elk
+     state: directory
+
+  - name: Creates directory for data es cluster
+    file:
+      path: elk/data
+      state: directory   
+
   - name: generating main docker compose file using Jinja2
     template:
       src: templates/elasticsearch.j2
@@ -21,6 +31,8 @@
 
 
 #elastic
+
+
   - name: Creates directory for elastic
     file:
      path: elk/elastic
@@ -35,9 +47,9 @@
 
   - name: Build osquery image
     docker_image:
-       path: tmp
+       path: elk/elastic
        name: test1
-       tag: v1
+       tag: latest
 
 
 #kibana
@@ -61,7 +73,7 @@
     docker_image:
        path: elk/kibana
        name: kibana
-       tag: v1
+       tag: latest
 
 
 
@@ -88,7 +100,17 @@
     docker_image:
        path: elk/logstash
        name: logstash
-       tag: v1
+       tag: latest
+###promethus
+
+
+  - name: Creates directory for promethus
+    file:
+      path: elk/prometheus
+      state: directory
+
+  - name: Copy Dockerfile
+    copy: src=prometheus/prometheus.yml dest=elk/prometheus
 
 #https://sbcode.net/grafana/elasticsearch-cluster/
 

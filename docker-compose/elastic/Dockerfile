@@ -28,7 +28,7 @@ RUN groupadd elasticsearch && \
 
 #COPY ./elasticsearch.yml  /usr/share/elasticsearch/config
 
-RUN RUN mkdir /data 
+RUN  mkdir /data 
 USER elasticsearch 
 
 RUN echo $PASSWORD | /usr/share/elasticsearch/bin/elasticsearch-keystore add -xf bootstrap.password
