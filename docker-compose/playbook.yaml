@@ -1,0 +1,129 @@
+---
+- hosts: server2
+  become: yes
+  vars_files:
+    - vars/default.yaml
+
+  tasks:
+
+#main control
+
+  - name: generating main docker compose file using Jinja2
+    template:
+      src: templates/elasticsearch.j2
+      dest: elk/docker-compose.yml
+
+
+  - name: Create instance using Jinja2
+    template:
+      src: templates/instances.j2
+      dest: elk/instances.yml
+
+
+#elastic
+  - name: Creates directory for elastic
+    file:
+     path: elk/elastic
+     state: directory
+
+  - name: Copy Dockerfile
+    copy: src=elastic/Dockerfile dest=elk/elastic
+
+  - name: Copy elasticsearch.yml
+    copy: src=elastic/elasticsearch.yml dest=elk/elastic
+
+
+  - name: Build osquery image
+    docker_image:
+       path: tmp
+       name: test1
+       tag: v1
+
+
+#kibana
+
+  - name: Creates directory for kibana
+    file:
+     path: elk/kibana
+     state: directory
+
+  - name: Copy Dockerfile
+    copy: src=kibana/Dockerfile dest=elk/kibana
+
+  - name: Copy elasticsearch.yml
+    copy: src=kibana/kibana.yml dest=elk/kibana
+
+  - name: Copy passwords.sh
+    copy: src=kibana/password.sh dest=elk/kibana
+
+
+  - name: Build kibana image
+    docker_image:
+       path: elk/kibana
+       name: kibana
+       tag: v1
+
+
+
+
+
+#kibana
+
+  - name: Creates directory for logstash
+    file:
+     path: elk/logstash
+     state: directory
+
+  - name: Copy Dockerfile
+    copy: src=logstash/Dockerfile dest=elk/logstash
+
+  - name: Copy logstash.conf
+    copy: src=logstash/logstash.conf dest=elk/logstash
+
+  #- name: Copy passwords.sh
+  #  copy: src=kibana/password.sh dest=elk/kibana
+
+
+  - name: Build logstash image
+    docker_image:
+       path: elk/logstash
+       name: logstash
+       tag: v1
+
+
+#https://sbcode.net/grafana/elasticsearch-cluster/
+
+#starting main app
+  - name: start docker-compose
+    docker_compose:
+      project_src: elk/
+      state: present
+
+
+#
+
+
+  - name: post to consul
+    uri:
+      url: https://localhost:9200/_slm/policy/nightly-snapshots?pretty/
+      method: PUT
+      body: '{
+      "name": "<daily-snapshot-{now/d}>",
+      "schedule": "0 45 23 * * ?",          
+      "repository": "my_repository",
+      "config": {
+      "indices": "*",
+      "include_global_state": true
+       },
+      "retention": {
+      "expire_after": "30d",
+      "min_count": 1,
+      "max_count": 31
+       }
+      }'
+      body_format: json
+      HEADER_Content-Type: "application/json"
+      #validate_certs: "no"
+    environment:
+      SSL_CERT_FILE: /home/ubuntu/elk/certs/ca/ca.crt
+

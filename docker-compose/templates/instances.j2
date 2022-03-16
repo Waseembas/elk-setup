@@ -1,0 +1,13 @@
+instances:
+
+{% for i in  nodes_list  %}
+
+  - name: {{ i }}
+    dns:
+      - {{ i }} 
+      - localhost
+    ip:
+      - 127.0.0.1
+
+{% endfor %}
+

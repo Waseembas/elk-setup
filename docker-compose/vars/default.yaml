@@ -1,0 +1,7 @@
+---
+webserver_message: "I am running to the finish line."
+version_number: abc 
+server: abc2
+nodes_list: [master, node1]
+xpack: enable
+cert-regen: no
