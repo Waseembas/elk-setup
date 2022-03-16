@@ -80,8 +80,8 @@
   - name: Copy logstash.conf
     copy: src=logstash/logstash.conf dest=elk/logstash
 
-  #- name: Copy passwords.sh
-  #  copy: src=kibana/password.sh dest=elk/kibana
+  - name: Copy logstash .yml
+    copy: src=logstash/logstash.yml dest=elk/logstash
 
 
   - name: Build logstash image
@@ -89,7 +89,6 @@
        path: elk/logstash
        name: logstash
        tag: v1
-
 
 #https://sbcode.net/grafana/elasticsearch-cluster/
 

@@ -17,7 +17,7 @@ RUN for iter in {1..10}; do \
     done; \
     (exit $exit_code)
 
-RUN which java
+#RUN which java
 
 RUN wget -O /tmp/logstash.tar.gz  https://artifacts.elastic.co/downloads/logstash/logstash-7.17.1-linux-x86_64.tar.gz
 
@@ -34,13 +34,18 @@ WORKDIR /usr/share/logstash
 
 
 COPY ./logstash.conf /usr/share/logstash/
-#RUN chmod 777 password.sh 
-#&& ./password.sh
 
- 
-#USER kibana
+WORKDIR /usr/share/logstash
 
-#CMD ./bin/kibana
+RUN mkdir -pv /usr/share/logstash/config/config.d
+
+COPY ./logstash.conf /usr/share/logstash/config/config.d/
+
+RUN echo "- pipeline.id: main \n   path.config: "/usr/share/logstash/config/config.d/*.conf" " >>  config/pipelines.yml 
 
 
+COPY  ./logstash.yml  config/logstash.yml
+
+
+CMD ./bin/logstash -f config/config.d/logstash.conf 
 

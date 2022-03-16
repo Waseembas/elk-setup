@@ -21,6 +21,6 @@ do
     -d'{"password":"'"${UserPassword}"'"}' -H "Content-Type: application/json"
   printf "%s=%s\n" "$User" "$UserPassword" >> passwords.txt
 done
-cat passwords.txt
-./bin/kibana
+#cat passwords.txt
+./bin/kibana --allow-root
 

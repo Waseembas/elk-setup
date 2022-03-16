@@ -31,13 +31,12 @@ WORKDIR /usr/share/kibana
 
 
 COPY ./password.sh /usr/share/kibana/
+COPY ./kibana.yml /usr/share/kibana/config
 RUN chmod 777 password.sh 
 #&& ./password.sh
 
  
-USER kibana
+#USER kibana
 
 CMD ./bin/kibana
-
-
 
