@@ -103,27 +103,28 @@
 #
 
 
-  - name: post to consul
+  - name: enable repo path for backups
     uri:
-      url: https://localhost:9200/_slm/policy/nightly-snapshots?pretty/
+      url: https://localhost:9200/_snapshot/my_repository              
       method: PUT
-      body: '{
-      "name": "<daily-snapshot-{now/d}>",
-      "schedule": "0 45 23 * * ?",          
-      "repository": "my_repository",
-      "config": {
-      "indices": "*",
-      "include_global_state": true
-       },
-      "retention": {
-      "expire_after": "30d",
-      "min_count": 1,
-      "max_count": 31
-       }
-      }'
+      url_username: elastic
+      url_password: "Test@1234"
+      body: '{  "type": "fs",  "settings": {    "location": "/data",    "compress": true  }}'                                                                                                       
       body_format: json
-      HEADER_Content-Type: "application/json"
-      #validate_certs: "no"
+    environment:
+      SSL_CERT_FILE: /home/ubuntu/elk/certs/ca/ca.crt
+
+
+  - name: enable slm backup policy 
+    uri:
+      url: https://localhost:9200/_slm/policy/nightly-snapshots?pretty
+      method: PUT
+      url_username: elastic
+      url_password: "Test@1234"
+      body: '{"name": "<daily-snapshot-{now/d}>","schedule": "0 45 23 * * ?","repository": "my_repository", "config": {"indices": "*", "include_global_state": true} ,"retention": {"expire_after": "30d","min_count": 1,"max_count": 31}}'
+      body_format: json
+#      HEADER_Content-Type: "application/json"
+     #validate_certs: "no"
     environment:
       SSL_CERT_FILE: /home/ubuntu/elk/certs/ca/ca.crt
 
