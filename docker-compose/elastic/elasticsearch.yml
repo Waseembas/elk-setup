@@ -18,6 +18,9 @@ xpack.security.transport.ssl.certificate: ${XPACK_SECURITY_TRANSPORT_SSL_CERTIFI
 xpack.security.transport.ssl.certificate_authorities: ${XPACK_SECURITY_TRANSPORT_SSL_CERTIFICATE_AUTHORITIES}
 xpack.security.transport.ssl.verification_mode: ${XPACK_SECURITY_TRANSPORT_SSL_MODE}                
 xpack.license.self_generated.type: ${XPACK_LICENCE_SELF_GENERATED_TYPE}
+path.repo: ["/data"]
+
+
 
 
 
