@@ -1,0 +1,18 @@
+instances:
+
+
+  - name: master
+    dns:
+      - master 
+      - localhost
+    ip:
+      - 127.0.0.1
+
+
+  - name: node1
+    dns:
+      - node1 
+      - localhost
+    ip:
+      - 127.0.0.1
+

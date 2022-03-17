@@ -2,35 +2,32 @@ version: '3.7'
 services:
 
 
-{% for i in  nodes_list  %}
-  {{ i }}:
+  master:
     image: test1:latest
-    container_name: {{ i }}
+    container_name: master
     environment:
       - XPACK_SECURITY_ENABLED=true
-      - NODE_NAME={{ i }}
+      - NODE_NAME=master
       - CLUSTER_NAME=es-docker-cluster
-      - DISCOVERY_SEED_HOSTS={{ nodes_list[1:]|join(',') }}
-      - CLUSTER_INITIAL_MASTER_NODES={{ nodes_list|join(',') }}
+      - DISCOVERY_SEED_HOSTS=node1
+      - CLUSTER_INITIAL_MASTER_NODES=master,node1
       - BOOTSTRAP_MEMORY_LOCK=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - NETWORK_HOST=0.0.0.0
       - HTTP_PORT=9200
-{% if xpack == 'enable' %}
       - XPACK_SECURITY_HTTP_SSL_ENABLED=true
-      - XPACK_SECURITY_HTTP_SSL_KEY=/usr/share/elasticsearch/config/certificates/{{ i }}/{{ i }}.key
-      - XPACK_SECURITY_HTTP_SSL_CERTIFICATE=/usr/share/elasticsearch/config/certificates/{{ i }}/{{ i }}.crt
+      - XPACK_SECURITY_HTTP_SSL_KEY=/usr/share/elasticsearch/config/certificates/master/master.key
+      - XPACK_SECURITY_HTTP_SSL_CERTIFICATE=/usr/share/elasticsearch/config/certificates/master/master.crt
       - XPACK_SECURITY_HTTP_SSL_CERTIFICATE_AUTHORITIES=/usr/share/elasticsearch/config/certificates/ca/ca.crt
       - XPACK_SECURITY_HTTP_SSL_MODE=certificate
       - XPACK_SECURITY_TRANSPORT_SSL_ENABLED=true
-      - XPACK_SECURITY_TRANSPORT_SSL_KEY=/usr/share/elasticsearch/config/certificates/{{ i }}/{{ i }}.key
-      - XPACK_SECURITY_TRANSPORT_SSL_CERTIFICATE=/usr/share/elasticsearch/config/certificates/{{ i }}/{{ i }}.crt
+      - XPACK_SECURITY_TRANSPORT_SSL_KEY=/usr/share/elasticsearch/config/certificates/master/master.key
+      - XPACK_SECURITY_TRANSPORT_SSL_CERTIFICATE=/usr/share/elasticsearch/config/certificates/master/master.crt
       - XPACK_SECURITY_TRANSPORT_SSL_CERTIFICATE_AUTHORITIES=/usr/share/elasticsearch/config/certificates/ca/ca.crt
       - XPACK_SECURITY_TRANSPORT_SSL_MODE=certificate                
       - XPACK_LICENCE_SELF_GENERATED_TYPE=trial
 
- {% endif %}
-
+ 
      
     ulimits:
       memlock:
@@ -47,40 +44,55 @@ services:
 
 
 
-{% if i == 'master' %}
     ports:
       - 9200:9200
       - 9300:9300
-   {% endif %}
+   
+  node1:
+    image: test1:latest
+    container_name: node1
+    environment:
+      - XPACK_SECURITY_ENABLED=true
+      - NODE_NAME=node1
+      - CLUSTER_NAME=es-docker-cluster
+      - DISCOVERY_SEED_HOSTS=node1
+      - CLUSTER_INITIAL_MASTER_NODES=master,node1
+      - BOOTSTRAP_MEMORY_LOCK=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - NETWORK_HOST=0.0.0.0
+      - HTTP_PORT=9200
+      - XPACK_SECURITY_HTTP_SSL_ENABLED=true
+      - XPACK_SECURITY_HTTP_SSL_KEY=/usr/share/elasticsearch/config/certificates/node1/node1.key
+      - XPACK_SECURITY_HTTP_SSL_CERTIFICATE=/usr/share/elasticsearch/config/certificates/node1/node1.crt
+      - XPACK_SECURITY_HTTP_SSL_CERTIFICATE_AUTHORITIES=/usr/share/elasticsearch/config/certificates/ca/ca.crt
+      - XPACK_SECURITY_HTTP_SSL_MODE=certificate
+      - XPACK_SECURITY_TRANSPORT_SSL_ENABLED=true
+      - XPACK_SECURITY_TRANSPORT_SSL_KEY=/usr/share/elasticsearch/config/certificates/node1/node1.key
+      - XPACK_SECURITY_TRANSPORT_SSL_CERTIFICATE=/usr/share/elasticsearch/config/certificates/node1/node1.crt
+      - XPACK_SECURITY_TRANSPORT_SSL_CERTIFICATE_AUTHORITIES=/usr/share/elasticsearch/config/certificates/ca/ca.crt
+      - XPACK_SECURITY_TRANSPORT_SSL_MODE=certificate                
+      - XPACK_LICENCE_SELF_GENERATED_TYPE=trial
 
-{% endfor %}
-
-
-{% if xpack == 'enable' %}
-{% if certregen == 'yes' %}
-
-
-  create_certs:
-    container_name: create_certs
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.1
-    command: >
-     bash -c '
-        if [[ ! -f /certs/bundle.zip ]]; then
-          bin/elasticsearch-certutil cert --silent --pem --in config/certificates/instances.yml -out /certs/bundle.zip;
-          unzip /certs/bundle.zip -d /certs;
-        fi;
-        chown -R 1000:0 /certs
-        ls -altr
-        ls -altr /certs
-      '
-    user: "0"
-    working_dir: /usr/share/elasticsearch
+ 
+     
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
     volumes:
-     - ./certs:/certs
-     - ./:/usr/share/elasticsearch/config/certificates
+      #- ./:/usr/share/elasticsearch/config/certs
+      - ./certs:/usr/share/elasticsearch/config/certificates
+      - ./data:/data
 
-{% endif %}
-{% endif %}
+
+
+
+
+
+
 
 
 
@@ -89,7 +101,7 @@ services:
     image: kibana:latest
     command: >
      bash -c '
-       bash password.sh {{ elastic_password }} {{ kibana_password }}
+       bash password.sh Test@1234 Test@1234
        ls -altr
        pwd
        cat passwords.txt
@@ -112,7 +124,6 @@ services:
 
 
 
-{% if monitoring == 'enable' %}
 
 
   eexporter:
@@ -142,12 +153,11 @@ services:
     image: grafana/grafana:6.1.6
     container_name: grafana
     environment:
-        - GF_SECURITY_ADMIN_PASSWORD={{ garphana_pass }}
+        - GF_SECURITY_ADMIN_PASSWORD=admin
     links:
         - prometheus
     ports:
         - "3000:3000" 
 
 
-{% endif %}
        

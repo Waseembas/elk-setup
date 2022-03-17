@@ -129,7 +129,6 @@
 
 #
 
-
   - name: enable repo path for backups
     uri:
       url: https://localhost:9200/_snapshot/my_repository              

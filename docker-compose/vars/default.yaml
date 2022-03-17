@@ -2,8 +2,9 @@
 
 nodes_list: [master, node1]
 xpack: enable
-cert-regen: no
-
+certregen: no
+monitoring: enable
+garphana_pass: admin
 
 image_elastic: test1
 tag_elastic: latest
@@ -21,8 +22,6 @@ elastic_password: "Test@1234"
 kibana_version: 7.17.1
 kibana_password: "Test@1234"
 
-logstash_version: 7.17.1
-logstash_password: "Test@1234"
 
 
 
