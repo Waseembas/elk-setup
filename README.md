@@ -26,3 +26,16 @@ add the inventory file and private ssh file vars directory accordingly.
  so this shared dir act as reader and writer accordingly.
  
  this ansible playbooks enable SLM policy which is communicated over TLS based encryption.
+
+
+Kibana open over https and communication between browser and kibana is based on default ca certificate
+https://host-ip:5601
+
+the default user is build-in
+user:     elastic
+password: Test@1234
+
+![image](https://user-images.githubusercontent.com/47210393/158878886-f38ab84c-a570-45d7-9cea-498c11e2780b.png)
+
+
+
