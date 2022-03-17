@@ -4,5 +4,8 @@ server.shutdownTimeout: "5s"
 elasticsearch.hosts: [ "https://master:9200" ]
 monitoring.ui.container.elasticsearch.enabled: true
 elasticsearch.ssl.certificateAuthorities: [ "./certs/ca/ca.crt" ]
+server.ssl.enabled: true
+server.ssl.certificate: ./certs/kibana-server/kibana-server.csr
+server.ssl.key: ./certs/kibana-server/kibana-server.key
 elasticsearch.username: "elastic"
 elasticsearch.password: "Test@1234"

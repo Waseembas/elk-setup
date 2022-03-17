@@ -2,7 +2,7 @@
 
 nodes_list: [master, node1]
 xpack: enable
-certregen: no
+certregen: enable
 monitoring: enable
 garphana_pass: admin
 

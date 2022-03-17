@@ -57,7 +57,7 @@ services:
 
 
 {% if xpack == 'enable' %}
-{% if certregen == 'yes' %}
+{% if certregen == 'enable' %}
 
 
   create_certs:
@@ -67,6 +67,8 @@ services:
      bash -c '
         if [[ ! -f /certs/bundle.zip ]]; then
           bin/elasticsearch-certutil cert --silent --pem --in config/certificates/instances.yml -out /certs/bundle.zip;
+          bin/elasticsearch-certutil csr -name kibana-server -dns example.com,www.example.com
+
           unzip /certs/bundle.zip -d /certs;
         fi;
         chown -R 1000:0 /certs

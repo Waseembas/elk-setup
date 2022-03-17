@@ -154,3 +154,4 @@
     environment:
       SSL_CERT_FILE: /home/ubuntu/elk/certs/ca/ca.crt
 
+      #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
