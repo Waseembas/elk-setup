@@ -16,10 +16,9 @@ add the inventory file and private ssh file vars directory accordingly.
  
  
  Control variables
- 
- ![image](https://user-images.githubusercontent.com/47210393/158875375-3678e86c-93d9-43bd-8beb-3d2757dcaeab.png)
- 
- 
+ ![image](https://user-images.githubusercontent.com/47210393/158882978-eb8d17eb-5582-4fbd-bf60-13a04350c487.png)
+
+  
  Backup plan 
  
  For backup plan i enable the path repo at /data directory which is shared in all dynamic elasticsearch cluster nodes so the repos backup type is "fs".
@@ -37,5 +36,10 @@ password: Test@1234
 
 ![image](https://user-images.githubusercontent.com/47210393/158878886-f38ab84c-a570-45d7-9cea-498c11e2780b.png)
 
+For monitoring grafana details are 
+http://host-ip:3000
+user:admin
+password:admin
 
+![image](https://user-images.githubusercontent.com/47210393/158883492-3fc4e50a-16f2-4004-a609-e242093e2a48.png)
 
