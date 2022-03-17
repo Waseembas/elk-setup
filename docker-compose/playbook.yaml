@@ -45,11 +45,14 @@
     copy: src=elastic/elasticsearch.yml dest=elk/elastic
 
 
-  - name: Build osquery image
+  - name: Build elastic image
     docker_image:
        path: elk/elastic
-       name: test1
-       tag: latest
+       buildargs:
+        VERSION: "{{ elastic_version }}"
+        PASSWORD: "{{ elastic_password }}"
+       name: "{{ image_elastic }}"
+       tag: "{{ tag_elastic }}"
 
 
 #kibana
@@ -72,8 +75,11 @@
   - name: Build kibana image
     docker_image:
        path: elk/kibana
-       name: kibana
-       tag: latest
+       buildargs:
+        VERSION: "{{ kibana_version }}"
+        PASSWORD: "{{ kibana_password }}"
+       name: "{{ image_kibana }}"
+       tag: "{{tag_kibana }}"
 
 
 
@@ -99,8 +105,8 @@
   - name: Build logstash image
     docker_image:
        path: elk/logstash
-       name: logstash
-       tag: latest
+       name: "{{ image_logstash }}"
+       tag: "{{ tag_logstash }}"
 ###promethus
 
 

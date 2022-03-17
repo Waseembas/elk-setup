@@ -84,7 +84,7 @@ services:
     image: kibana:latest
     command: >
      bash -c '
-       bash password.sh
+       bash password.sh {{ elastic_password }} {{ kibana_password }}
        ls -altr
        pwd
        cat passwords.txt

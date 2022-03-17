@@ -1,7 +1,32 @@
 ---
-webserver_message: "I am running to the finish line."
-version_number: abc 
-server: abc2
+
 nodes_list: [master, node1]
 xpack: enable
 cert-regen: no
+
+
+image_elastic: test1
+tag_elastic: latest
+
+image_kibana: kibana
+tag_kibana: latest
+
+
+image_logstash: logstash
+tag_logstash: latest
+
+elastic_version: 7.17.1
+elastic_password: "Test@1234"
+
+kibana_version: 7.17.1
+kibana_password: "Test@1234"
+
+logstash_version: 7.17.1
+logstash_password: "Test@1234"
+
+
+
+
+
+
+

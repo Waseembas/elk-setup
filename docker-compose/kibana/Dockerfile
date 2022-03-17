@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
-ARG CERT_ADD
-ARG NODE
+ARG PASSWORD=Test@1234
+ARG VERSION=7.17.1
 
 RUN for iter in {1..10}; do \
       export DEBIAN_FRONTEND=noninteractive && \

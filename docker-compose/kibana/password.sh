@@ -2,7 +2,7 @@
 
 # Configure Bootstrap Password
 
-BootstrapPassword="Test@1234"
+BootstrapPassword=$1
 
 while true
 do
@@ -15,7 +15,7 @@ done
 # Set passwords for various users
 for User in "kibana" "logstash_system" "apm_system" "beats_system" "elastic"
 do
-  UserPassword=Test@1234
+  UserPassword=$2
   curl --cacert /usr/share/kibana/certs/ca/ca.crt -u "elastic:${BootstrapPassword}" \
     -XPOST "https://master:9200/_xpack/security/user/${User}/_password" \
     -d'{"password":"'"${UserPassword}"'"}' -H "Content-Type: application/json"
