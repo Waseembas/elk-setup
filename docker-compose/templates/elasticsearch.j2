@@ -67,9 +67,13 @@ services:
      bash -c '
         if [[ ! -f /certs/bundle.zip ]]; then
           bin/elasticsearch-certutil cert --silent --pem --in config/certificates/instances.yml -out /certs/bundle.zip;
-          bin/elasticsearch-certutil csr -name kibana-server -dns example.com,www.example.com
+          bin/elasticsearch-certutil ca -out /certs/bundle_kibana.zip --pem;
 
           unzip /certs/bundle.zip -d /certs;
+          mkdir -pv /certs/kibana
+          unzip /certs/bundle_kibana.zip -d /certs/kibana;
+
+
         fi;
         chown -R 1000:0 /certs
         ls -altr
