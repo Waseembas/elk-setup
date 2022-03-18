@@ -74,6 +74,7 @@ services:
     command: >
      bash -c '
         if [[ ! -f /certs/bundle.zip ]]; then
+          cat /dev/null > /usr/share/elasticsearch/config/elasticsearch.yml 
           bin/elasticsearch-certutil cert --silent --pem --in config/certificates/instances.yml -out /certs/bundle.zip;
           bin/elasticsearch-certutil ca -out /certs/bundle_kibana.zip --pem;
 
