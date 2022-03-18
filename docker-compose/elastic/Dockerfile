@@ -4,7 +4,7 @@ ARG PASSWORD=Test@1234
 ARG VERSION=7.17.1
 
 RUN export DEBIAN_FRONTEND=noninteractive  &&  apt update && \
-    apt install -y  wget curl nano
+    apt install -y  wget curl nano unzip
 
 RUN mkdir /usr/share/elasticsearch
 
