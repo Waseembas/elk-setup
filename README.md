@@ -6,7 +6,7 @@ change into this directory elk-setup/docker/
 
 add the inventory file and private ssh file vars directory accordingly. 
 
-1.first after cloning the repo move to this dir "elk-setup/ansible-setup/" and build the docker image with the following command.
+1.then after cloning the repo move to this dir "elk-setup/ansible-setup/" and build the docker image with the following command.
 
   docker build -t ansible:2.9 .
 
