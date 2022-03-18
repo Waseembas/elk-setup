@@ -43,7 +43,15 @@ services:
       #- ./:/usr/share/elasticsearch/config/certs
       - ./certs:/usr/share/elasticsearch/config/certificates
       - ./data:/data
-
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt https://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
 
 
 
@@ -62,7 +70,7 @@ services:
 
   create_certs:
     container_name: create_certs
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.1
+    image: test1:latest
     command: >
      bash -c '
         if [[ ! -f /certs/bundle.zip ]]; then
@@ -84,6 +92,12 @@ services:
     volumes:
      - ./certs:/certs
      - ./:/usr/share/elasticsearch/config/certificates
+
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f config/certs/{{ nodes_list[1:]|join(',') }}/{{ nodes_list[1:]|join(',') }}.crt ]"]
+      interval: 1s
+      timeout: 5s
+      retries: 120 
 
 {% endif %}
 {% endif %}

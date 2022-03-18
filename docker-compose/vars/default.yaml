@@ -1,6 +1,6 @@
 ---
 
-nodes_list: [master, node1]
+nodes_list: [master, node1, node2]
 xpack: enable
 certregen: enable
 monitoring: enable
