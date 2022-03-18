@@ -1,14 +1,19 @@
 # elk-setup prerequists
 
+
+1.after cloning the repo move to this dir "elk-setup/ansible-setup/" and build the docker image with the following command.
+
+Run this command  docker build -t ansible:2.9 .
+
 change into this directory elk-setup/docker/
+
+Run the below command it will install docker and docker compose
 
  docker run --rm -it -v ${PWD}/elk-setup/docker:/ansible/playbooks ansible:2.9 playbook.yaml -e -i /ansible/playbooks/vars/inventory.yml
 
-add the inventory file and private ssh file vars directory accordingly. 
+add the inventory file and private ssh file vars directory accordingly before running. 
 
-1.then after cloning the repo move to this dir "elk-setup/ansible-setup/" and build the docker image with the following command.
 
-  docker build -t ansible:2.9 .
 
 2. After building the repo move into this directory "elk-setup/docker-compose/vars/" and update ip in inventory.yml and add your private ssh key into key.pem file after building run the following command
    
