@@ -44,3 +44,8 @@ password:admin
 ![image](https://user-images.githubusercontent.com/47210393/158883492-3fc4e50a-16f2-4004-a609-e242093e2a48.png)
 
  i added the password.sh script in kibana folder which will update builtin user during elk stack setup process, 
+
+Future enhancement 
+Make ansible roles future to make modular
+I use docker-compose we can easily shift to this on docker swarm with little modifications however is out of the scope of the current requirements.
+We can use metric beat file beat etc which will take time further for development
