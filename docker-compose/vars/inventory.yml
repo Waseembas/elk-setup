@@ -1,0 +1,9 @@
+---
+allhosts:
+  hosts:
+      server2:
+        ansible_host: 18.203.221.201  #Jenkins SERVER
+        ansible_ssh_private_key_file: /ansible/playbooks/vars/key.pem
+        ansible_ssh_user: ubuntu
+        ansible_ssh_port: 22
+        user: ubuntu
