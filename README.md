@@ -58,4 +58,3 @@ Make ansible roles future to make modular
 
 I use docker-compose we can easily shift to this on docker swarm with little modifications however is out of the scope of the current requirements.
 
-We can use metric beat file beat etc which will take time further for development
